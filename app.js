@@ -29,9 +29,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-String.prototype.replaceAt=function(index, character) {
-      return this.substr(0, index) + character + this.substr(index+character.length);
-}
+
 
 app.post('/search', function(req,res){
 	var tweetList= [];
@@ -42,9 +40,19 @@ app.post('/search', function(req,res){
 		else{
 			 for(var i = 0; i <10; i++ ){
 			 		if(tweetList.length == 5 ) break;
-			 		console.log(data);
 					var str = data.statuses[i].text;
-					str=str.replace(/#/g , "").replace(/@/g , "").replace(/RT/g , "");
+					str=str.replace(/#/g , "").replace(/@/g , "").replace(/RT/g , "").replace(/:/g,"") ;
+					var start = str.indexOf("http");
+					console.log("start is:"+start);
+					if (start != -1){
+							var end = str.indexOf(' ',start);
+							console.log("end is: "+end)
+							if(end == -1)
+								str = str.substring(0,start);
+							else
+								str = str.substring(0,start) + str.substring(end); 
+					}
+					str=str.substr(0, 1).toUpperCase() + str.substr(1).toLowerCase();
 					if((tweetList.indexOf(str)== -1) || (10-i <= 5-tweetList.length))
 							tweetList.push( str);
 				}
