@@ -3,6 +3,12 @@
 <html>
 <head>
 <title>Poettry</title>
+
+<style type="text/css">
+.tweets{
+	font-size: 22px !important;
+	font-family: 'Courier New';
+}</style>
 <link rel="stylesheet" href="stylesheets/style.css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 </head>
@@ -11,11 +17,19 @@
 <h1>poettry</h1>
 <h2>A poetry engine powered by twitter</h2>
 <p class="cta">Write me a poem about <input type="text" name="poem" id="subject" onkeypress="return runScript(event)">.</p>
-<p class ="cta tweets"></p>
-<p class ="cta tweets"></p>
-<p class ="cta tweets"></p>
-<p class ="cta tweets"></p>
-<p class ="cta tweets"></p>
+<p class ="tweets"></p>
+<p class ="tweets"></p>
+<p class ="tweets"></p>
+<p class ="tweets"></p>
+<p class ="tweets"></p>
+</div>
+<div class="footer">
+<a href="#">Share on Facebook <strong>//</strong></a>
+<a href="#">Share on Twitter <strong>//</strong></a>
+<a href="javascript:window.print()">Print this poetry <strong>//</strong></a>
+<a href="javascript:location.reload(true);">Make a new poettry <strong>//</strong></a>
+
+
 </div>
 </body>
 </html>

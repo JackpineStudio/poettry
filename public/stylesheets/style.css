@@ -12,8 +12,23 @@ body{
 .header{
 	margin: 50px auto;
 	padding:0;
-	width: 70%;
+	width: 75%;
 	border: none;
+}
+.footer{
+	margin: 50px auto;
+	padding:0;
+	width: 75%;
+	border: none;
+}
+.footer a{
+	text-decoration: none;
+	color: #000;
+	font-weight: bold;
+}
+a:hover{
+	opacity: .5;
+	
 }
 
 .header h1 {
