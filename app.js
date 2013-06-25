@@ -29,31 +29,22 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-
-
 app.post('/search', function(req,res){
 	var tweetList= [];
-	twit.search(req.body.search, {"count": 10}, function(err, data){
+	twit.search(req.body.search, {"count": 10, "lang": "en"}, function(err, data){
 		if (err)
 			console.log(err);
-			
 		else{
+			var results=data.statuses.length;
 			 for(var i = 0; i <10; i++ ){
 			 		if(tweetList.length == 5 ) break;
 					var str = data.statuses[i].text;
 					str=str.replace(/#/g , "").replace(/@/g , "").replace(/RT/g , "").replace(/:/g,"") ;
 					var start = str.indexOf("http");
-					console.log("start is:"+start);
-					if (start != -1){
-							var end = str.indexOf(' ',start);
-							console.log("end is: "+end)
-							if(end == -1)
-								str = str.substring(0,start);
-							else
-								str = str.substring(0,start) + str.substring(end); 
-					}
-					str=str.substr(0, 1).toUpperCase() + str.substr(1).toLowerCase();
-					if((tweetList.indexOf(str)== -1) || (10-i <= 5-tweetList.length))
+					if (start != -1)
+							str = str.substring(0,start);
+					str=str.substr(0, 1).toUpperCase().concat(str.substr(1).toLowerCase());
+					if((tweetList.indexOf(str)== -1) || (results-i <= 5-tweetList.length) || results<10)
 							tweetList.push( str);
 				}
 				res.json(tweetList);
@@ -63,6 +54,13 @@ app.post('/search', function(req,res){
 
 app.get('/',function(req,res){
 	res.render('index');
+
+});
+
+app.get('/getPoettry/:id',function(req,res){
+	var id = (req.params.id);
+	console.log(new String(id).charAt(0));
+	return;
 
 });
 
