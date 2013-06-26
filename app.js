@@ -7,6 +7,58 @@ var twit = new twitter({
   access_token_secret: 'MtS2SgdQDvhIHteDOlMXgn4Jz1T9E1yEMDlGDUPvk'
 });
 
+var mongo = require("mongodb");
+var host = "127.0.0.1";
+var port = mongo.Connection.DEFAULT_PORT;
+var db;
+var ObjectId = require('mongodb').ObjectID;
+
+// define database connection function 
+var connect = function(){
+	// Connect to database if we haven"t already
+	if(!db){
+		var db = new mongo.Db("Poetries", new mongo.Server(host,port),{safe:true});
+		db.open(function(error){
+			if(error)console.log(error);
+			else{
+				console.log("we connected to the database");
+			}
+		});
+	}else{
+		console.log("we are already connected");
+	}
+
+	// return database object
+	return db;
+}
+db= connect();
+var savePoetry = function( tweetList,term, callback){
+		var collectNum = Math.floor((Math.random()*9));
+		db.collection('poetries'+collectNum,function(err, poems){
+			if(err) console.log(err);
+			var toSave = {};
+			toSave.collectionNum = collectNum;
+			toSave.tweetList = tweetList;
+			toSave.term = term;
+			poems.save(toSave,function(err,doc){
+					if(err)console.log(err);
+					var id = doc._id;
+					callback(collectNum,id);
+			})
+
+		});
+}
+
+var getPoetry = function(id, poemId, callback){
+	console.log("collectionNum is :"+id+"poemId is:"+poemId);
+	db.collection('poetries'+id,function(err,poems){
+		poems.findOne({_id: new ObjectId(poemId.toString())},function(err, poem){
+			console.log(poem);
+			callback(poem);
+		});
+	});
+
+}
 var express = require('express')
   , http = require('http')
   , path = require('path');
@@ -31,7 +83,8 @@ if ('development' == app.get('env')) {
 
 app.post('/search', function(req,res){
 	var tweetList= [];
-	twit.search(req.body.search, {"count": 10, "lang": "en"}, function(err, data){
+	var term = req.body.search
+	twit.search(term, {"count": 10, "lang": "en"}, function(err, data){
 		if (err)
 			console.log(err);
 		else{
@@ -43,11 +96,22 @@ app.post('/search', function(req,res){
 					var start = str.indexOf("http");
 					if (start != -1)
 							str = str.substring(0,start);
+					if(str.indexOf(' ')== 0)
+						str= str.substr(1);
 					str=str.substr(0, 1).toUpperCase().concat(str.substr(1).toLowerCase());
 					if((tweetList.indexOf(str)== -1) || (results-i <= 5-tweetList.length) || results<10)
 							tweetList.push( str);
 				}
-				res.json(tweetList);
+				savePoetry(tweetList,term,function(cNum,id,term){
+					var returnObject= {};
+					returnObject.collectionNum = cNum;
+					returnObject.id= id;
+					returnObject.tweetList = tweetList;
+					returnObject.term = term;
+					console.log(tweetList);
+					res.json(returnObject);
+
+				});
 			}
 	});
 });
@@ -58,8 +122,20 @@ app.get('/',function(req,res){
 });
 
 app.get('/getPoettry/:id',function(req,res){
-	var id = (req.params.id);
-	console.log(new String(id).charAt(0));
+	var id   = (req.params.id);
+	console.log(id);
+	var cNum = new String(id).charAt(0);
+	console.log(cNum);
+	id = id.toString();
+	id = id.substr(1);
+	console.log(id);
+	getPoetry(cNum, id, function(poem){
+		res.render('index',{data:poem});
+	});
+
+
+	
+
 	return;
 
 });

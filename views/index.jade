@@ -8,7 +8,7 @@
 	font-size: 22px !important;
 	font-family: 'Courier New';
 }</style>
-<link rel="stylesheet" href="stylesheets/style.css"/>
+<link rel="stylesheet" href="/stylesheets/style.css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
@@ -24,8 +24,8 @@
 <p class ="tweets"></p>
 </div>
 <div class="footer">
-<a href="https://www.facebook.com/sharer/sharer.php?u=http://google.com" target="_blank">Share on Facebook <strong>||</strong></a>
-<a href="#">Share on Twitter <strong>||</strong></a>
+<a id="facebook"href="#" target="_blank">Share on Facebook <strong>||</strong></a>
+<a id='twitter'href="#" target="_blank">Share on Twitter <strong>||</strong></a>
 <a href="javascript:window.print()">Print this poetry <strong>||</strong></a>
 <a href="javascript:location.reload(true);"> Make a new poettry</a>
 
@@ -37,7 +37,25 @@
 </html>
 <script src="/javascripts/tweetPoem.js" type="text/javascript"></script>
 script.(type ="javascript")
+	var list =!{JSON.stringify(data)}
+	if(list){
+		console.log(list);
+		var pArray = document.getElementsByClassName("tweets");
+			for(var i = 0; i < pArray.length;i++){
+					pArray[i].innerHTML = list.tweetList[i];
+				}
+			document.getElementById("searchTerm").innerHTML=list.term.toUpperCase();
+			showTweets();
+			var facebookurl = "https://www.facebook.com/sharer/sharer.php?u=";
+			document.getElementById("facebook").href=facebookurl+window.location.hostname+"/getPoettry/"+list.collectionNum+list._id;
+			var twitterurl = "http://www.twitter.com/share?url=";
+			document.getElementById("twitter").href=twitterurl+window.location.hostname+"/getPoettry/"+data.collectionNum+data._id;
+
+
+	}
+script.(type ="javascript")
 	function runScript(e){
+		console.log(window.location.href);
 		if(e.keyCode == 13){
 			var term = document.getElementById("subject").value;
 			console.log("enter pressed");
@@ -48,17 +66,16 @@ script.(type ="javascript")
 				data: {search: term } ,
 				success: function (data) {
 					console.log(data);
-					if(data.code){
-						console.log(data.msg);
-						document.getElementById("subject").value= data.msg;
-						return;
-					}
 					var pArray = document.getElementsByClassName("tweets");
 					for(var i = 0; i < pArray.length;i++){
-						pArray[i].innerHTML = data[i];
+						pArray[i].innerHTML = data.tweetList[i];
 					}
-					document.getElementById("searchTerm").innerHTML=term;
+					document.getElementById("searchTerm").innerHTML=term.toUpperCase();
 					showTweets();
+					var facebookurl = "https://www.facebook.com/sharer/sharer.php?u=";
+					document.getElementById("facebook").href=facebookurl+window.location.hostname+"/getPoettry/"+data.collectionNum+data.id;
+					var twitterurl = "http://www.twitter.com/share?url=";
+					document.getElementById("twitter").href=twitterurl+window.location.hostname+"/getPoettry/"+data.collectionNum+data.id;
 				},
 				error: function (xhr, status, error) {
 					console.log('Error: ' + error.message);
