@@ -125,6 +125,7 @@ app.get('/getPoettry/:id',function(req,res){
 	var id   = (req.params.id);
 	console.log(id);
 	var cNum = new String(id).charAt(0);
+	
 	console.log(cNum);
 	id = id.toString();
 	id = id.substr(1);
