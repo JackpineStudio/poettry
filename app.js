@@ -40,6 +40,7 @@ var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL || 
   "mongodb://localhost/mydb"; 
 var db;
+var ObjectId = require('mongodb').ObjectID;
 // define database connection function 
 var connect = function(){""
 	// Connect to database if we haven"t already
