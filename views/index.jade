@@ -47,6 +47,7 @@ script.(type ="javascript")
 			document.getElementById("searchTerm").innerHTML=list.term.toUpperCase();
 			showTweets();
 			var facebookurl = "https://www.facebook.com/sharer/sharer.php?u=http://";
+			console.log(facebookurl);
 			document.getElementById("facebook").href=facebookurl+window.location.hostname+"/getPoettry/"+list.collectionNum+list._id;
 			var twitterurl = "http://www.twitter.com/share?url=http://";
 			document.getElementById("twitter").href=twitterurl+window.location.hostname+"/getPoettry/"+data.collectionNum+data._id;
@@ -72,9 +73,9 @@ script.(type ="javascript")
 					}
 					document.getElementById("searchTerm").innerHTML=term.toUpperCase();
 					showTweets();
-					var facebookurl = "https://www.facebook.com/sharer/sharer.php?u=";
+					var facebookurl = "https://www.facebook.com/sharer/sharer.php?u=http://";
 					document.getElementById("facebook").href=facebookurl+window.location.hostname+"/getPoettry/"+data.collectionNum+data.id;
-					var twitterurl = "http://www.twitter.com/share?url=";
+					var twitterurl = "http://www.twitter.com/share?url=http://";
 					document.getElementById("twitter").href=twitterurl+window.location.hostname+"/getPoettry/"+data.collectionNum+data.id;
 				},
 				error: function (xhr, status, error) {
