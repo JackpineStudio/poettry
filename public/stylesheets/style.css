@@ -49,17 +49,20 @@ form{
 	font-size: 1em;
 	width: 300px;
 	font-family:'Courier New' !important;
-
 	border-bottom: 3px solid #000 !important; 
 	border-top: none;
 	border-right: none;
 	border-left: none;
-
 }
-.cta{
-	font-size: 3em;
+.tweets{
+	text-transform:capitalize;
+	font-size: 1.8em;
+}
+#cta{
+	font-size: 2.5em;
 }
 #searchTerm{
+	font-size: 2.5em;
 	font-weight: bold;
-	
+	text-transform:capitalize;
 }
