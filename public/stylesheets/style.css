@@ -54,6 +54,7 @@ form{
 	border-right: none;
 	border-left: none;
 }
+<<<<<<< HEAD
 .tweets{
 	text-transform:capitalize;
 	font-size: 1.8em;
@@ -66,3 +67,23 @@ form{
 	font-weight: bold;
 	text-transform:capitalize;
 }
+=======
+
+
+#cta{
+	font-size: 2.5em !important;
+	font-family: 'Courier New';	
+
+}
+#searchTerm{
+	font-size: 2em !important;
+	font-family: 'Courier New';	
+	font-weight: bold !important;
+	text-transform:capitalize;
+
+}
+.tweets{
+	font-size: 1.5em !important;
+	font-family: 'Courier New';	
+}
+>>>>>>> Added some styling
