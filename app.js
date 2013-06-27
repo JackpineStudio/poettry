@@ -6,7 +6,7 @@ var twit = new twitter({
   access_token_key: '1446626059-5ShUuke14R6uCpUTcEthg0evqGsHkzkeNhSq7P7',
   access_token_secret: 'MtS2SgdQDvhIHteDOlMXgn4Jz1T9E1yEMDlGDUPvk'
 });
-
+/*
 var mongo = require("mongodb");
 var host = "127.0.0.1";
 var port = mongo.Connection.DEFAULT_PORT;
@@ -32,6 +32,31 @@ var connect = function(){
 	return db;
 }
 db= connect();
+*/
+
+// database connect function for heroku
+var mongo = require("mongodb");
+var mongoUri = process.env.MONGOLAB_URI || 
+  process.env.MONGOHQ_URL || 
+  "mongodb://localhost/mydb"; 
+var db;
+// define database connection function 
+var connect = function(){""
+	// Connect to database if we haven"t already
+	if(!db){
+		mongo.Db.connect(mongoUri,function(err,myDB){
+			if(err) console.log("database:"+ err);
+			else db = myDB;
+		})
+	}else{
+		console.log("we are already connected");
+	}
+	// insert our hard coded list of apps into the database
+	// return database object
+	return db;
+}
+db=connect();
+
 var savePoetry = function( tweetList,term, callback){
 		var collectNum = Math.floor((Math.random()*9));
 		db.collection('poetries'+collectNum,function(err, poems){
