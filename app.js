@@ -124,6 +124,9 @@ app.post('/search', function(req,res){
 							str = str.substring(0,start);
 					if(str.indexOf(' ')== 0)
 						str= str.substr(1);
+					var newstr = str.replace(/[^a-zA-Z ,.?]/g, "");
+					if(newstr.length != 0)
+						str = newstr;
 					str=str.substr(0, 1).toUpperCase().concat(str.substr(1).toLowerCase());
 					if((tweetList.indexOf(str)== -1) || (results-i <= 5-tweetList.length) || results<10)
 							tweetList.push( str);
